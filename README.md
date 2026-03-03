@@ -54,5 +54,5 @@ O Initia consome dados públicos e gratuitos para entregar uma experiência comp
 *   Ícones maravilhosos oferecidos pelo **[FontAwesome](https://fontawesome.com/)**.
 
 ---
-Feito com 🤍 por **rimi**
+Feito com 🤍 por **rimi** — Totalmente **VIBECODADO**! 🤖
 Distribuído sob a licença **MIT** (Veja o arquivo `LICENSE` para mais detalhes).
