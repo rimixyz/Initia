@@ -55,4 +55,6 @@ O Initia consome dados públicos e gratuitos para entregar uma experiência comp
 
 ---
 Feito com 🤍 por **rimi** — Totalmente **VIBECODADO**! 🤖
+
 Distribuído sob a licença **MIT** (Veja o arquivo `LICENSE` para mais detalhes).
+
