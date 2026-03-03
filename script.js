@@ -14,7 +14,7 @@ const DEFAULT_CONFIG = {
     overlayOpacity: 50,
     bgBlur: 5,
     maxLinksPerRow: 10,
-    showGreeting: true,
+    showGreeting: false,
     geminiApiKey: '',
     geminiModel: 'gemini-2.5-flash'
 };
