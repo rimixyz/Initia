@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Initia</title>
+    <link rel="stylesheet" href="style.css?v=4">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="icon" type="image/png" href="favicon.png">
+</head>
+
+<body>
+    <div id="bg-overlay"></div>
+    <div class="bg-wrap">
+        <div id="bg-image"></div>
+        <div id="weather-overlay-layer" class="weather-overlay-layer"></div>
+    </div>
+
+    <main class="main-container" id="main-container">
+        <!-- Tempo e Clima -->
+        <header class="header">
+            <div class="time-container">
+                <span id="clock" class="clock">00:00</span>
+                <span id="seconds" class="seconds">00</span>
+            </div>
+            <div id="date" class="date">Carregando data...</div>
+            <div class="day-progress">
+                <div id="day-progress-bar" class="day-progress-bar"></div>
+            </div>
+            <h1 id="greeting" class="greeting">Olá</h1>
+        </header>
+
+        <!-- Barra de Pesquisa -->
+        <div class="search-wrapper">
+            <form id="search-form">
+                <div class="search-box glass">
+                    <span class="search-icon"><i class="fa-solid fa-magnifying-glass"></i></span>
+                    <input type="text" id="search-input" placeholder="Pesquisar..." autocomplete="off"
+                        spellcheck="false">
+                </div>
+                <div id="search-math-result" class="search-math-result glass" style="display: none;"
+                    title="Clique para copiar o resultado">
+                    <span class="search-math-icon"><i class="fa-solid fa-calculator" style="opacity: 0.7;"></i></span>
+                    <span id="math-output" style="margin-left: 10px;"></span>
+                    <span style="flex:1"></span>
+                    <span style="font-size: 0.7rem; opacity: 0.5;"><i class="fa-regular fa-copy"></i> Copiar</span>
+                </div>
+            </form>
+        </div>
+
+        <!-- Links Rápidos -->
+        <div class="links-section">
+            <div id="links-grid" class="links-grid">
+                <!-- Links dinâmicos -->
+            </div>
+            <button id="add-link-btn" class="add-link-btn" title="Adicionar link"><i class="fa-solid fa-plus"></i>
+                Adicionar</button>
+        </div>
+
+        <!-- Widgets -->
+        <div class="content-grid">
+            <div id="weather-widget" class="widget">
+                <div class="weather-loading" id="weather-content">
+                    <span class="spin"><i class="fa-solid fa-spinner fa-spin"></i></span> Carregando clima...
+                </div>
+            </div>
+
+            <div class="widget notes-widget">
+                <h3><i class="fa-solid fa-note-sticky"></i> Notas</h3>
+                <textarea id="quick-notes" placeholder="Suas notas aqui..." spellcheck="false"></textarea>
+            </div>
+
+            <div class="widget todo-widget">
+                <h3><i class="fa-solid fa-list-check"></i> Tarefas</h3>
+                <form id="todo-form" class="todo-input-group">
+                    <input type="text" id="todo-input" placeholder="Nova tarefa..." autocomplete="off">
+                    <button type="submit" id="add-todo-btn" class="glass-btn primary"><i
+                            class="fa-solid fa-plus"></i></button>
+                </form>
+                <ul id="todo-list" class="todo-list"></ul>
+            </div>
+        </div>
+    </main>
+
+    <!-- Controles Flutuantes -->
+    <div class="floating-controls top-left">
+        <button id="calendar-toggle" class="glass-btn icon-btn" title="Calendário"><i
+                class="fa-solid fa-calendar-days"></i></button>
+        <button id="converter-toggle" class="glass-btn icon-btn" title="Conversor"><i
+                class="fa-solid fa-right-left"></i></button>
+    </div>
+
+    <div class="floating-controls top-right">
+        <button id="pomodoro-toggle" class="glass-btn icon-btn pomodoro-toggle" title="Pomodoro / Cronômetro"><i
+                class="fa-solid fa-clock"></i></button>
+    </div>
+
+    <div class="floating-controls right">
+        <button id="chat-toggle" class="glass-btn icon-btn" title="Chat IA"><i class="fa-solid fa-robot"></i></button>
+        <button id="zen-toggle" class="glass-btn icon-btn" title="Modo Zen"><i class="fa-solid fa-spa"></i></button>
+        <button id="refresh-bg-btn" class="glass-btn icon-btn" title="Trocar imagem"><i
+                class="fa-solid fa-rotate-right"></i></button>
+        <button id="settings-btn" class="glass-btn icon-btn" title="Configurações"><i
+                class="fa-solid fa-gear"></i></button>
+    </div>
+
+    <div class="floating-controls bottom">
+        <span class="unsplash-credit glass" id="bg-credit">
+            <a href="https://unsplash.com" target="_blank" rel="noopener">Imagem de Fundo</a>
+        </span>
+        <button id="fav-bg-btn" class="fav-bg-credit-btn" title="Favoritar imagem"><i
+                class="fa-regular fa-heart"></i></button>
+    </div>
+
+    <!-- Painel de Configurações -->
+    <aside id="settings-sidebar" class="sidebar glass-heavy">
+        <div class="sidebar-header">
+            <h2><i class="fa-solid fa-gear"></i> Configurações</h2>
+            <button id="close-settings-btn" class="icon-btn"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="sidebar-content">
+            <div class="setting-group">
+                <label for="set-name">Seu Nome (Saudação)</label>
+                <input type="text" id="set-name" placeholder="Ex: João">
+            </div>
+
+            <div class="setting-group">
+                <label for="set-theme">Tema da Interface</label>
+                <select id="set-theme">
+                    <option value="auto">Auto (Sistema)</option>
+                    <option value="light">Claro</option>
+                    <option value="dark">Escuro</option>
+                </select>
+            </div>
+
+            <div class="setting-group toggle-group">
+                <label for="set-time-theme">Tema por Horário</label>
+                <label class="switch">
+                    <input type="checkbox" id="set-time-theme">
+                    <span class="slider round"></span>
+                </label>
+            </div>
+
+            <div class="setting-group">
+                <label for="set-city">Cidade (para o Clima)</label>
+                <input type="text" id="set-city" placeholder="Ex: São Paulo">
+            </div>
+
+            <div class="setting-group">
+                <label for="set-search-engine">Motor de Busca</label>
+                <select id="set-search-engine">
+                    <optgroup label="Populares">
+                        <option value="google">Google</option>
+                        <option value="bing">Bing</option>
+                        <option value="youtube">YouTube</option>
+                        <option value="yahoo">Yahoo</option>
+                    </optgroup>
+                    <optgroup label="Privacidade">
+                        <option value="duckduckgo">DuckDuckGo</option>
+                        <option value="startpage">Startpage</option>
+                        <option value="brave">Brave Search</option>
+                        <option value="searxng">SearXNG</option>
+                        <option value="qwant">Qwant</option>
+                        <option value="mojeek">Mojeek</option>
+                    </optgroup>
+                    <optgroup label="Outros">
+                        <option value="ecosia">Ecosia 🌱</option>
+                        <option value="wikipedia">Wikipedia</option>
+                        <option value="reddit">Reddit</option>
+                        <option value="github">GitHub</option>
+                    </optgroup>
+                </select>
+            </div>
+
+            <div class="setting-group">
+                <label for="set-clock-format">Formato do Relógio</label>
+                <select id="set-clock-format">
+                    <option value="24">24 Horas</option>
+                    <option value="12">12 Horas (AM/PM)</option>
+                </select>
+            </div>
+
+            <div class="setting-group toggle-group">
+                <label for="set-show-seconds">Mostrar Segundos</label>
+                <label class="switch">
+                    <input type="checkbox" id="set-show-seconds">
+                    <span class="slider round"></span>
+                </label>
+            </div>
+
+            <div class="setting-group toggle-group">
+                <label for="set-show-bg-image">Mostrar Imagem de Fundo</label>
+                <label class="switch">
+                    <input type="checkbox" id="set-show-bg-image" checked>
+                    <span class="slider round"></span>
+                </label>
+            </div>
+
+            <div class="setting-group toggle-group">
+                <label for="set-live-weather">Clima Dinâmico no Fundo</label>
+                <label class="switch">
+                    <input type="checkbox" id="set-live-weather">
+                    <span class="slider round"></span>
+                </label>
+            </div>
+
+            <div class="setting-group">
+                <label for="set-bg-provider">Provedor de Imagens</label>
+                <select id="set-bg-provider">
+                    <option value="picsum">Lorem Picsum (sem chave)</option>
+                    <option value="unsplash">Unsplash (requer chave)</option>
+                    <option value="pexels">Pexels (requer chave)</option>
+                    <option value="pixabay">Pixabay (requer chave)</option>
+                </select>
+            </div>
+
+            <div class="setting-group" id="bg-api-key-group" style="display:none;">
+                <label for="set-bg-api-key">Chave de API</label>
+                <input type="text" id="set-bg-api-key" placeholder="Cole sua chave aqui...">
+                <span id="bg-api-key-hint" class="setting-hint"></span>
+            </div>
+
+            <div class="setting-group">
+                <label for="set-bg-category">Tema da Imagem de Fundo</label>
+                <select id="set-bg-category">
+                    <option value="auto">Automático (por horário)</option>
+                    <option value="random">Aleatório</option>
+                    <option value="nature,landscape">Natureza</option>
+                    <option value="city,urban,architecture">Cidade</option>
+                    <option value="space,galaxy,stars">Espaço</option>
+                    <option value="ocean,beach,sea">Oceano</option>
+                    <option value="mountain,forest">Montanhas</option>
+                    <option value="minimal,abstract">Abstrato</option>
+                    <option value="dark,moody">Dark/Moody</option>
+                </select>
+                <span id="bg-category-hint" class="setting-hint" style="display:none;">Picsum não suporta temas —
+                    imagens serão aleatórias.</span>
+            </div>
+
+            <div class="setting-group">
+                <label for="set-max-links-per-row">Links por Linha (máx)</label>
+                <input type="number" id="set-max-links-per-row" min="1" max="20" value="10">
+            </div>
+
+            <div class="setting-group">
+                <label for="set-overlay-opacity">Escurecimento do Fundo (<span id="opacity-value">50%</span>)</label>
+                <input type="range" id="set-overlay-opacity" class="range" min="0" max="100" value="50">
+            </div>
+
+            <div class="setting-group">
+                <label for="set-bg-blur">Desfoque do Fundo (<span id="blur-value">5px</span>)</label>
+                <input type="range" id="set-bg-blur" class="range" min="0" max="20" value="5">
+            </div>
+
+            <div class="setting-group toggle-group">
+                <label for="set-show-greeting">Mostrar Saudação</label>
+                <label class="switch">
+                    <input type="checkbox" id="set-show-greeting" checked>
+                    <span class="slider round"></span>
+                </label>
+            </div>
+
+            <hr class="separator">
+
+            <div class="setting-group">
+                <label for="set-gemini-api-key">Chave API do Inai</label>
+                <input type="password" id="set-gemini-api-key" placeholder="Cole sua chave do Inai aqui...">
+                <span class="setting-hint">Obtenha em <a href="https://aistudio.google.com/apikey" target="_blank"
+                        rel="noopener" style="color:var(--primary-color);opacity:0.8;">Google AI Studio</a></span>
+            </div>
+
+            <div class="setting-group">
+                <label for="set-gemini-model">Modelo do Inai</label>
+                <select id="set-gemini-model">
+                    <optgroup label="Série 3 (Última Geração)">
+                        <option value="gemini-3.1-pro-preview">Gemini 3.1 Pro Preview</option>
+                        <option value="gemini-3-flash">Gemini 3 Flash</option>
+                    </optgroup>
+                    <optgroup label="Série 2.5">
+                        <option value="gemini-2.5-pro">Gemini 2.5 Pro</option>
+                        <option value="gemini-2.5-flash" selected>Gemini 2.5 Flash</option>
+                        <option value="gemini-2.5-flash-lite">Gemini 2.5 Flash Lite</option>
+                    </optgroup>
+                </select>
+            </div>
+
+            <hr class="separator">
+
+            <button id="manage-links-btn" class="glass-btn block-btn">Gerenciar Links Rápidos</button>
+
+            <div style="display: flex; gap: 10px; margin-top: 10px;">
+                <button id="export-btn" class="glass-btn block-btn" style="margin-top: 0; flex: 1;"><i
+                        class="fa-solid fa-download"></i> Exportar</button>
+                <button id="import-btn" class="glass-btn block-btn" style="margin-top: 0; flex: 1;"><i
+                        class="fa-solid fa-upload"></i> Importar</button>
+            </div>
+            <input type="file" id="import-file" accept=".json" style="display: none;">
+
+            <button id="reset-all-btn" class="glass-btn block-btn danger" style="margin-top:10px;">Resetar Tudo</button>
+
+            <div class="settings-footer">
+                feito com <span style="color:#ff6b6b;">❤</span> por <strong>rimi</strong>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Modal Dica de Rodapé (Ocultar Barra do Chrome) -->
+    <div id="footer-tip-modal" class="modal">
+        <div class="modal-content glass-heavy" style="max-width: 400px; text-align: center; padding: 25px;">
+            <div style="font-size: 3rem; color: var(--primary-color); margin-bottom: 15px;">
+                <i class="fa-solid fa-lightbulb"></i>
+            </div>
+            <h2 style="margin-bottom: 15px; font-size: 1.4rem;">Dica para uma tela limpa</h2>
+            <p style="margin-bottom: 25px; font-size: 0.95rem; line-height: 1.5; opacity: 0.9;">
+                Para deixar sua Startpage ainda mais imersiva e sem distrações, você pode ocultar a barra inferior
+                ("Personalizar o Chrome").<br><br>
+                Basta clicar com o <strong>botão direito</strong> no espaço dessa barra inferior e selecionar
+                <strong>"Ocultar rodapé"</strong>.
+            </p>
+            <button id="close-tip-btn" class="glass-btn primary block-btn" style="margin-top: 0;">Entendi,
+                obrigado!</button>
+        </div>
+    </div>
+
+    <!-- Modal Gerenciar Links -->
+    <div id="manage-links-modal" class="modal">
+        <div class="modal-content glass-heavy">
+            <div class="modal-header">
+                <h2><i class="fa-solid fa-link"></i> Gerenciar Links</h2>
+                <button id="close-modal-btn" class="icon-btn"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="add-link-form">
+                    <input type="text" id="new-link-name" placeholder="Nome do Site">
+                    <input type="url" id="new-link-url" placeholder="URL (https://...)">
+                    <select id="new-link-category">
+                        <option value="Geral">Geral</option>
+                        <option value="Trabalho">Trabalho</option>
+                        <option value="Estudo">Estudo</option>
+                        <option value="Lazer">Lazer</option>
+                        <option value="Social">Social</option>
+                        <option value="Dev">Dev</option>
+                    </select>
+                    <button id="add-new-link-btn" class="glass-btn primary">Adicionar</button>
+                </div>
+                <hr class="separator">
+                <ul id="manage-links-list"></ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pomodoro / Cronômetro Overlay -->
+    <div id="pomodoro-overlay" class="pomodoro-overlay">
+        <div class="pomodoro-card">
+            <div class="pomodoro-close">
+                <button id="pomodoro-close-btn" class="icon-btn"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <!-- Tabs -->
+            <div class="timer-tabs">
+                <button class="timer-tab active" data-tab="pomodoro">Pomodoro</button>
+                <button class="timer-tab" data-tab="stopwatch">Cronômetro</button>
+            </div>
+            <!-- Pomodoro Content -->
+            <div id="tab-pomodoro" class="timer-tab-content active">
+                <div id="pomodoro-mode" class="pomodoro-mode">Foco</div>
+                <div id="pomodoro-display" class="pomodoro-display">25:00</div>
+                <div id="pomodoro-cycles" class="pomodoro-cycles">🍅 0 pomodoros</div>
+                <div class="pomodoro-controls">
+                    <button id="pomodoro-start" class="glass-btn primary"><i class="fa-solid fa-play"></i></button>
+                    <button id="pomodoro-reset" class="glass-btn"><i class="fa-solid fa-rotate-left"></i></button>
+                </div>
+                <button id="pomodoro-dismiss" class="glass-btn pomodoro-dismiss" style="display:none;">
+                    <i class="fa-solid fa-bell-slash"></i> Parar
+                </button>
+                <div class="pomodoro-phases">
+                    <button class="pomodoro-phase active" data-type="focus">
+                        <span class="phase-label">Foco</span>
+                        <input type="number" class="phase-input" id="pomo-focus-min" value="25" min="1" max="120"> min
+                    </button>
+                    <button class="pomodoro-phase" data-type="break">
+                        <span class="phase-label">Pausa</span>
+                        <input type="number" class="phase-input" id="pomo-break-min" value="5" min="1" max="60"> min
+                    </button>
+                    <button class="pomodoro-phase" data-type="long-break">
+                        <span class="phase-label">Longa</span>
+                        <input type="number" class="phase-input" id="pomo-long-min" value="15" min="1" max="60"> min
+                    </button>
+                </div>
+                <div class="pomodoro-hint">Clique nos minutos para personalizar</div>
+            </div>
+            <!-- Stopwatch Content -->
+            <div id="tab-stopwatch" class="timer-tab-content">
+                <div class="pomodoro-mode">Cronômetro</div>
+                <div id="stopwatch-display" class="pomodoro-display">00:00<span class="stopwatch-ms">.00</span></div>
+                <div class="pomodoro-controls">
+                    <button id="sw-start" class="glass-btn primary"><i class="fa-solid fa-play"></i></button>
+                    <button id="sw-lap" class="glass-btn" disabled><i class="fa-solid fa-flag"></i></button>
+                    <button id="sw-reset" class="glass-btn"><i class="fa-solid fa-rotate-left"></i></button>
+                </div>
+                <ul id="sw-laps" class="sw-laps"></ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Calendar Overlay -->
+    <div id="calendar-overlay" class="pomodoro-overlay">
+        <div class="pomodoro-card calendar-card">
+            <div class="pomodoro-close">
+                <button id="calendar-close-btn" class="icon-btn"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="cal-nav">
+                <button id="cal-prev" class="glass-btn btn-small"><i class="fa-solid fa-chevron-left"></i></button>
+                <span id="cal-title" class="cal-title">Março 2026</span>
+                <button id="cal-next" class="glass-btn btn-small"><i class="fa-solid fa-chevron-right"></i></button>
+            </div>
+            <div class="cal-weekdays">
+                <span>Dom</span><span>Seg</span><span>Ter</span><span>Qua</span><span>Qui</span><span>Sex</span><span>Sáb</span>
+            </div>
+            <div id="cal-grid" class="cal-grid"></div>
+            <div id="cal-holidays" class="cal-holidays"></div>
+        </div>
+    </div>
+
+    <!-- Converter Overlay -->
+    <div id="converter-overlay" class="pomodoro-overlay">
+        <div class="pomodoro-card converter-card">
+            <div class="pomodoro-close">
+                <button id="converter-close-btn" class="icon-btn"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="timer-tabs">
+                <button class="conv-tab active" data-conv="currency">Moeda</button>
+                <button class="conv-tab" data-conv="temperature">Temperatura</button>
+                <button class="conv-tab" data-conv="length">Comprimento</button>
+            </div>
+            <!-- Currency -->
+            <div id="conv-currency" class="conv-content active">
+                <div class="conv-row">
+                    <input type="number" id="conv-brl" class="conv-input" placeholder="0.00" value="1">
+                    <span class="conv-label">BRL</span>
+                </div>
+                <div class="conv-row">
+                    <input type="number" id="conv-usd" class="conv-input" placeholder="0.00" readonly>
+                    <span class="conv-label">USD</span>
+                </div>
+                <div class="conv-row">
+                    <input type="number" id="conv-eur" class="conv-input" placeholder="0.00" readonly>
+                    <span class="conv-label">EUR</span>
+                </div>
+                <div id="conv-rate-info" class="conv-rate-info">Carregando câmbio...</div>
+            </div>
+            <!-- Temperature -->
+            <div id="conv-temperature" class="conv-content">
+                <div class="conv-row">
+                    <input type="number" id="conv-celsius" class="conv-input" placeholder="0" value="0">
+                    <span class="conv-label">°C</span>
+                </div>
+                <div class="conv-row">
+                    <input type="number" id="conv-fahr" class="conv-input" placeholder="0" readonly>
+                    <span class="conv-label">°F</span>
+                </div>
+                <div class="conv-row">
+                    <input type="number" id="conv-kelvin" class="conv-input" placeholder="0" readonly>
+                    <span class="conv-label">K</span>
+                </div>
+            </div>
+            <!-- Length -->
+            <div id="conv-length" class="conv-content">
+                <div class="conv-row">
+                    <input type="number" id="conv-km" class="conv-input" placeholder="0" value="1">
+                    <span class="conv-label">km</span>
+                </div>
+                <div class="conv-row">
+                    <input type="number" id="conv-mi" class="conv-input" placeholder="0" readonly>
+                    <span class="conv-label">mi</span>
+                </div>
+                <div class="conv-row">
+                    <input type="number" id="conv-cm" class="conv-input" placeholder="0" value="100">
+                    <span class="conv-label">cm</span>
+                </div>
+                <div class="conv-row">
+                    <input type="number" id="conv-in" class="conv-input" placeholder="0" readonly>
+                    <span class="conv-label">in</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chat IA Overlay -->
+    <div id="chat-overlay" class="pomodoro-overlay">
+        <div class="pomodoro-card chat-card">
+            <div class="pomodoro-close">
+                <button id="chat-close-btn" class="icon-btn"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="chat-header">
+                <i class="fa-solid fa-robot"></i> Inai
+                <span id="chat-model-label" class="chat-model-label"></span>
+            </div>
+            <div id="chat-messages" class="chat-messages">
+                <div class="chat-empty">
+                    <i class="fa-solid fa-comments" style="font-size:2rem; opacity:0.2; margin-bottom:10px;"></i>
+                    <p>Envie uma mensagem para começar</p>
+                </div>
+            </div>
+            <div class="chat-input-area">
+                <input type="text" id="chat-input" placeholder="Pergunte algo ao Inai..." autocomplete="off"
+                    spellcheck="false">
+                <button id="chat-send-btn" class="glass-btn primary" title="Enviar"><i
+                        class="fa-solid fa-paper-plane"></i></button>
+            </div>
+            <div class="chat-actions">
+                <button id="chat-stop-btn" class="glass-btn btn-small danger" style="display:none;"
+                    title="Parar geração"><i class="fa-solid fa-stop"></i> Parar</button>
+                <button id="chat-clear-btn" class="glass-btn btn-small" title="Limpar conversa"><i
+                        class="fa-solid fa-trash"></i> Limpar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Toast -->
+    <div id="toast" class="toast glass">Notificação</div>
+
+    <script src="gemini.js?v=1"></script>
+    <script src="script.js?v=5"></script>
+</body>
+
+</html>
