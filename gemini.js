@@ -197,6 +197,7 @@ function initGeminiChat() {
         geminiChat.loadConfig();
         const modelNames = {
             'gemini-3.1-pro-preview': '3.1 Pro Preview',
+            'gemini-3.1-flash-lite-preview': '3.1 Flash Lite Preview',
             'gemini-3-flash': '3 Flash',
             'gemini-2.5-pro': '2.5 Pro',
             'gemini-2.5-flash': '2.5 Flash',
